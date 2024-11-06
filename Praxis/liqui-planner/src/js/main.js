@@ -1,65 +1,66 @@
 "use strict";
 
-// Gesamtbilanz anlegen (Initialisieren/ Deklarieren)
-let einnahmen = 0,
-    ausgaben = 0,
-    bilanz = 0,
-    titel,
-    typ,
-    betrag,
-    datum;
+const haushaltsbuch = {
 
+    gesamtbilanz: {
+        einnahmen: 0,
+        ausgaben: 0,
+        bilanz: 0,
+    },
 
-// Eingabedaten 1: holen
-const eintrag_erfassen = function () {
-    titel = prompt("Titel:");
-    typ = prompt("Typ (Einnahme/Ausgabe):");
-    betrag = parseInt(prompt("Betrag (in Cent):"));
-    datum = prompt("Datum (jjjj-mm-tt):");
-};
+    neuereintrag: {
+        titel:"",
+        typ:"",
+        betrag:"",
+        datum:"",
+    },
 
+    eintrag_erfassen() {
+        this.neuereintrag.titel = prompt("Titel:");
+        this.neuereintrag.typ = prompt("Typ (Einnahme/Ausgabe):");
+        this.neuereintrag.betrag = parseInt(prompt("Betrag (in Cent):"));
+        this.neuereintrag.datum = prompt("Datum (jjjj-mm-tt):");
+    },
 
-const eintrag_ausgeben = function (titel, typ, betrag, datum) {
-    console.log(`Titel: ${titel}
-Typ: ${typ}
-Betrag: ${betrag} ct
-Datum: ${datum}`
-    );
-};
+    eintrag_ausgeben() {
+        console.log(`Titel: ${this.neuereintrag.titel}
+Typ: ${this.neuereintrag.typ}
+Betrag: ${this.neuereintrag.betrag} ct
+Datum: ${this.neuereintrag.datum}`
+        );
+    },
 
+    eintrag_mit_gesamtbilanz_verrechnen() {
+        if (this.neuereintrag.typ === "Einnahme") {
+            this.gesamtbilanz.einnahmen += this.neuereintrag.betrag;
+            this.gesamtbilanz.bilanz += this.neuereintrag.betrag;
+        } else if (this.neuereintrag.typ === "Ausgabe") {
+            this.gesamtbilanz.ausgaben += this.neuereintrag.betrag;
+            this.gesamtbilanz.bilanz -= this.neuereintrag.betrag;
+        } else {
+            console.log(`Der Typ ${this.neuereintrag.typ} ist nicht bekannt!`)
+        }
+    },
 
-const eintrag_mit_gesamtbilanz_verrechnen = function (typ, betrag) {
-    if (typ === "Einnahme") {
-        einnahmen = einnahmen + betrag;
-        bilanz = bilanz + betrag;
-    } else if (typ === "Ausgabe") {
-        ausgaben = ausgaben + betrag;
-        bilanz = bilanz - betrag;
-    } else {
-        console.log(`Der Typ ${typ} ist nicht bekannt!`)
+    gesamtbilanz_augeben() {
+        console.log(`
+Einnahme: ${this.gesamtbilanz.einnahmen}
+Ausgabe: ${this.gesamtbilanz.ausgaben}
+Bilanz: ${this.gesamtbilanz.bilanz} ct
+Bilanz ist positive: ${this.gesamtbilanz.bilanz >= 0}`
+        );
+    },
+
+    eintrag_hinzufuegen() {
+        this.eintrag_erfassen();
+        this.eintrag_ausgeben();
+        this.eintrag_mit_gesamtbilanz_verrechnen();
+        this.gesamtbilanz_augeben();
     }
 };
+haushaltsbuch.eintrag_hinzufuegen();
+haushaltsbuch.eintrag_hinzufuegen();
 
-
-// Gesamtbilanz ausgeben
-const gesamtbilanz_augeben = function (einnahmen, ausgaben, bilanz) {
-    console.log(`
-Einnahme: ${einnahmen}
-Ausgabe: ${ausgaben}
-Bilanz: ${bilanz} ct
-Bilanz ist positive: ${bilanz >= 0}`
-    );
-};
-
-
-const eintrag_hinzufuegen = function () {
-    eintrag_erfassen();
-    eintrag_ausgeben(titel, typ, betrag, datum);
-    eintrag_mit_gesamtbilanz_verrechnen(typ, betrag);
-    gesamtbilanz_augeben(einnahmen, ausgaben, bilanz);
-};
-eintrag_hinzufuegen();
-eintrag_hinzufuegen();
 
 
 
