@@ -2,32 +2,38 @@
 
 const haushaltsbuch = {
 
-    gesamtbilanz: {
-        einnahmen: 0,
-        ausgaben: 0,
-        bilanz: 0,
-    },
+    gesamtbilanz: new Map(),
 
      eintraege: [],
 
     eintrag_erfassen() {
-        this.eintraege.push(
-            {
-                titel: prompt("Titel:"),
-                typ: prompt("Typ (Einnahme/Ausgabe):"),
-                betrag: parseInt(prompt("Betrag (in Cent):")),
-                datum: prompt("Datum (jjjj-mm-tt):")
-            }
-        );
+        let neuer_eintrag = new Map();
+        neuer_eintrag.set("titel", prompt("Titel:"));
+        neuer_eintrag.set("typ", prompt("Typ (Einnahme/Ausgabe):"));
+        neuer_eintrag.set("betrag", prompt("Betrag (in Cent):"));
+        neuer_eintrag.set("datum", prompt("Datum (jjjj-mm-tt):"));
+        this.eintraege.push(neuer_eintrag);
+    },
+
+    eintraege_sortieren() {
+        this.eintraege.sort(function (eintrag_a, eintrag_b) {
+                if (eintrag_a.get("datum") > eintrag_b.get("datum")) {
+                    return -1;
+                } else if (eintrag_a.get("datum") < eintrag_b.get("datum")) {
+                    return 1;
+                } else {
+                    return 0
+                }
+        });
     },
 
     eintraege_ausgeben() {
         console.clear();
-        this.eintraege.forEach(function(eintrag /* Es wird das Element übergeben, über welches drüber iteriert wird (name/parameter) kann mn selber wählen */) {
-            console.log(`Titel: ${eintrag.titel}\n`
-                + `Typ: ${eintrag.typ}\n`
-                + `Betrag: ${eintrag.betrag} ct\n`
-                + `Datum: ${eintrag.datum}\n`
+        this.eintraege.forEach(function(eintrag /* Es wird das Element übergeben, über welches drüber iteriert wird (name/parameter) kann man selber wählen */) {
+            console.log(`Titel: ${eintrag.get("titel")}\n`
+                + `Typ: ${eintrag.get("typ")}\n`
+                + `Betrag: ${eintrag.get("betrag")} ct\n`
+                + `Datum: ${eintrag.get("datum")}\n`
             );
         })
     },
@@ -70,6 +76,7 @@ const haushaltsbuch = {
         let weiterer_eintrag = true;
         while (weiterer_eintrag) {
             this.eintrag_erfassen();
+            this.eintraege_sortieren()
             this.eintraege_ausgeben();
             this.gesamtbilanz_erstellen();
             this.gesamtbilanz_augeben();
