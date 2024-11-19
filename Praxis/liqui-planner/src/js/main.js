@@ -11,7 +11,8 @@ const haushaltsbuch = {
         neuer_eintrag.set("titel", prompt("Titel:"));
         neuer_eintrag.set("typ", prompt("Typ (Einnahme/Ausgabe):"));
         neuer_eintrag.set("betrag", parseInt(prompt("Betrag (in Cent):")));
-        neuer_eintrag.set("datum", prompt("Datum (jjjj-mm-tt):"));
+        neuer_eintrag.set("datum", new Date(prompt("Datum (jjjj-mm-tt):") + " 00:00:00"));
+        neuer_eintrag.set("timestamp", Date.now());
         this.eintraege.push(neuer_eintrag);
     },
 
@@ -29,13 +30,18 @@ const haushaltsbuch = {
 
     eintraege_ausgeben() {
         console.clear();
-        this.eintraege.forEach(function(eintrag) { /* Es wird das Element übergeben, über welches drüber iteriert wird (name/parameter) kann man selber wählen */
+        this.eintraege.forEach(function(eintrag) { /* Es wird das Element übergeben, über welches drüber iteriert wird (parameter/ parameternamen) kann man selber wählen */
             console.log(`Titel: ${eintrag.get("titel")}\n`
                 + `Typ: ${eintrag.get("typ")}\n`
                 + `Betrag: ${eintrag.get("betrag")} ct\n`
-                + `Datum: ${eintrag.get("datum")}\n`
+                + `Datum: ${eintrag.get("datum").toLocaleDateString("de-DE", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                })} \n`
+                + `Timestamp: ${eintrag.get("timestamp")}`
             );
-        })
+        });
     },
 
     gesamtbilanz_erstellen() {
