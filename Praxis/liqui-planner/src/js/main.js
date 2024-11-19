@@ -10,7 +10,7 @@ const haushaltsbuch = {
         let neuer_eintrag = new Map();
         neuer_eintrag.set("titel", prompt("Titel:"));
         neuer_eintrag.set("typ", prompt("Typ (Einnahme/Ausgabe):"));
-        neuer_eintrag.set("betrag", prompt("Betrag (in Cent):"));
+        neuer_eintrag.set("betrag", parseInt(prompt("Betrag (in Cent):")));
         neuer_eintrag.set("datum", prompt("Datum (jjjj-mm-tt):"));
         this.eintraege.push(neuer_eintrag);
     },
@@ -29,7 +29,7 @@ const haushaltsbuch = {
 
     eintraege_ausgeben() {
         console.clear();
-        this.eintraege.forEach(function(eintrag /* Es wird das Element übergeben, über welches drüber iteriert wird (name/parameter) kann man selber wählen */) {
+        this.eintraege.forEach(function(eintrag) { /* Es wird das Element übergeben, über welches drüber iteriert wird (name/parameter) kann man selber wählen */
             console.log(`Titel: ${eintrag.get("titel")}\n`
                 + `Typ: ${eintrag.get("typ")}\n`
                 + `Betrag: ${eintrag.get("betrag")} ct\n`
@@ -38,26 +38,23 @@ const haushaltsbuch = {
         })
     },
 
-
-
     gesamtbilanz_erstellen() {
-        let neue_gesamtbilanz = {
-                einnahmen: 0,
-                ausgaben: 0,
-                bilanz: 0,
-        };
+        let neue_gesamtbilanz = new Map();
+        neue_gesamtbilanz.set("einnahmen", 0);
+        neue_gesamtbilanz.set("ausgaben", 0);
+        neue_gesamtbilanz.set("bilanz", 0);
         this.eintraege.forEach(function (eintrag) {
-            switch (eintrag.typ) {
+            switch (eintrag.get("typ")) {
                 case "Einnahme":
-                    neue_gesamtbilanz.einnahmen += eintrag.betrag;
-                    neue_gesamtbilanz.bilanz += eintrag.betrag;
+                    neue_gesamtbilanz.set("einnahmen", neue_gesamtbilanz.get("einnahmen") + eintrag.get("betrag"));
+                    neue_gesamtbilanz.set("bilanz", neue_gesamtbilanz.get("bilanz") + eintrag.get("betrag"));
                     break;
                 case "Ausgabe":
-                    neue_gesamtbilanz.ausgaben += eintrag.betrag;
-                    neue_gesamtbilanz.bilanz -= eintrag.betrag;
+                    neue_gesamtbilanz.set("ausgaben", neue_gesamtbilanz.get("ausgaben") + eintrag.get("betrag"));
+                    neue_gesamtbilanz.set("bilanz", neue_gesamtbilanz.get("bilanz") - eintrag.get("betrag"));
                     break;
                 default:
-                    console.log(`Der Typ ${eintrag.typ} ist nicht bekannt!`);
+                    console.log(`Der Typ ${eintrag.get("typ")} ist nicht bekannt!`);
                     break;
             }
         });
@@ -65,10 +62,10 @@ const haushaltsbuch = {
     },
 
     gesamtbilanz_augeben() {
-        console.log(`Einnahme: ${this.gesamtbilanz.einnahmen}\n`
-            + `Ausgabe: ${this.gesamtbilanz.ausgaben}\n`
-            + `Bilanz: ${this.gesamtbilanz.bilanz} ct\n`
-            + `Bilanz ist positive: ${this.gesamtbilanz.bilanz >= 0}`
+        console.log(`Einnahmen: ${this.gesamtbilanz.get("einnahmen")} ct\n`
+            + `Ausgaben: ${this.gesamtbilanz.get("ausgaben")} ct\n`
+            + `Bilanz: ${this.gesamtbilanz.get("bilanz")} ct\n`
+            + `Bilanz ist positive: ${this.gesamtbilanz.get("bilanz") >= 0}`
         );
     },
 
