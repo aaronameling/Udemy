@@ -3,9 +3,9 @@
 let jumbo = document.querySelector(".jumbotron");
 
 // console.log(jumbo.innerHTML); // gibt uns die HTML-Struktur in einem Element (Dom String)
-// console.log(jumbo.innerText); // gibt und den Text-Inhalt von Elementen inkl. aller Kindelemente und nachfahrenelemente die im Frontend angezeigt werden (Gerenderten Texte)
-// console.log(jumbo.textContent); // gibt und den Text-Inhalt von Elementen inkl. aller Kindelemente und nachfahrenelemente
-                                // die im innerHTML angezeigt werden (ohne Gerenderten Texte)
+// console.log(jumbo.innerText); // gibt uns den Text-Inhalt von Elementen inkl. aller Kindelemente und nachfahrenelemente die im Frontend angezeigt werden (Gerenderten Texte)
+// console.log(jumbo.textContent); // gibt uns den Text-Inhalt von Elementen inkl. aller Kindelemente und nachfahrenelemente
+                                   // die im innerHTML angezeigt werden (ohne Gerenderten Texte)
 
 let string_1 = "";
 let string_2 = "<header><h2>lorem ipsum dolor sit amt</h2></header>";
