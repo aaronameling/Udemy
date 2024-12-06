@@ -58,29 +58,15 @@ const eingabeformular = {
     absenden_event_hinzufuegen(eingabeformular) {
         eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
             e.preventDefault();
-            // Formulardaten holen und Formulardaten verarbeiten
-            console.log(e);
             let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
-            console.log(formulardaten);
-            // formulardaten validieren
-            let formular_fehler = this.formulardaten_validieren(formulardaten);
-            console.log(formular_fehler);
-
+            let formular_fehler = this.formulardaten_validieren(formulardaten)
             if (formular_fehler.length === 0) {
-                // Eintrag zum Haushaltsbuch hinzufügen
                 haushaltsbuch.eintrag_hinzufuegen(formulardaten);
-                // wenn bereits Fehlermeldung angezeigt wird
-                    // Fehlermeldung entfernen
                 this.fehlerbox_entfernen()
-                // Formular zurücksetzen
                 e.target.reset();
-                // Datum auf den heutigen Tag setzen
                 this.datum_aktualisieren();
             } else {
-                // wenn bereits Fehlermeldung angezeigt wird
-                    // Fehlermeldung entfernen
                 this.fehlerbox_entfernen();
-                // Fehlermeldung bei Eingabeformular-Container anzeigen
                 this.fehlerbox_anzeigen(formular_fehler);
             }
         });
@@ -155,8 +141,6 @@ const eingabeformular = {
 
     anzeigen() {
         document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
-        // Datum auf den heutigen Tag setzen.
         this.datum_aktualisieren();
     },
-
 };
